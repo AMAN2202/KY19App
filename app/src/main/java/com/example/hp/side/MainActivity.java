@@ -1,25 +1,39 @@
 package com.example.hp.side;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    RecyclerView rvMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        rvMain = (RecyclerView) findViewById(R.id.rvMain);
+        Bitmap[] bitmaps = getBitmaps();
+
+        rvMain.setAdapter(new GridLayoutAdapter(getBaseContext(), bitmaps));
+        rvMain.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -41,6 +55,25 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
+
+
+    //staggered layout get images form resources
+    private Bitmap[] getBitmaps() {
+        Bitmap[] tempbitmaps = new Bitmap[9];
+        tempbitmaps[0] = BitmapFactory.decodeResource(getResources(), R.drawable.i1);
+        tempbitmaps[1] = BitmapFactory.decodeResource(getResources(), R.drawable.i3);
+        tempbitmaps[2] = BitmapFactory.decodeResource(getResources(), R.drawable.i4);
+        tempbitmaps[3] = BitmapFactory.decodeResource(getResources(), R.drawable.i5);
+        tempbitmaps[4] = BitmapFactory.decodeResource(getResources(), R.drawable.i6);
+        tempbitmaps[5] = BitmapFactory.decodeResource(getResources(), R.drawable.i7);
+        tempbitmaps[6] = BitmapFactory.decodeResource(getResources(), R.drawable.i8);
+        tempbitmaps[7] = BitmapFactory.decodeResource(getResources(), R.drawable.i9);
+        tempbitmaps[8] = BitmapFactory.decodeResource(getResources(), R.drawable.i2);
+
+
+        return tempbitmaps;
+    }
+
 
     @Override
     public void onBackPressed() {
