@@ -3,6 +3,7 @@ package com.example.hp.side;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -54,25 +55,73 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+        final BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.tabs);
+        rvMain.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 0 && bottomNavigationView.isShown()) {
+                    bottomNavigationView.animate().translationY(bottomNavigationView.getHeight()).setDuration(200);
+                    fab.animate().translationY(bottomNavigationView.getHeight()).setDuration(200);
+
+                } else if (dy < 0) {
+                    bottomNavigationView.animate().translationY(0).setDuration(200);
+                    fab.animate().translationY(0).setDuration(200);
+
+                }
+            }
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+        });
     }
 
 
     //staggered layout get images form resources
     private Bitmap[] getBitmaps() {
-        Bitmap[] tempbitmaps = new Bitmap[9];
-        tempbitmaps[0] = BitmapFactory.decodeResource(getResources(), R.drawable.i1);
-        tempbitmaps[1] = BitmapFactory.decodeResource(getResources(), R.drawable.i3);
-        tempbitmaps[2] = BitmapFactory.decodeResource(getResources(), R.drawable.i4);
-        tempbitmaps[3] = BitmapFactory.decodeResource(getResources(), R.drawable.i5);
-        tempbitmaps[4] = BitmapFactory.decodeResource(getResources(), R.drawable.i6);
-        tempbitmaps[5] = BitmapFactory.decodeResource(getResources(), R.drawable.i7);
-        tempbitmaps[6] = BitmapFactory.decodeResource(getResources(), R.drawable.i8);
-        tempbitmaps[7] = BitmapFactory.decodeResource(getResources(), R.drawable.i9);
-        tempbitmaps[8] = BitmapFactory.decodeResource(getResources(), R.drawable.i2);
 
+
+        Bitmap[] tempbitmaps = new Bitmap[6];
+        tempbitmaps[0] = BitmapFactory.decodeResource(getResources(), R.drawable.i7);
+        tempbitmaps[1] = BitmapFactory.decodeResource(getResources(), R.drawable.i1);
+        tempbitmaps[2] = BitmapFactory.decodeResource(getResources(), R.drawable.i2);
+        tempbitmaps[3] = BitmapFactory.decodeResource(getResources(), R.drawable.i3);
+        tempbitmaps[4] = BitmapFactory.decodeResource(getResources(), R.drawable.i5);
+        tempbitmaps[5] = BitmapFactory.decodeResource(getResources(), R.drawable.i9);
+
+
+//height ratio can be changed according to need  keepinf fixed width
+//    first_col  second_col
+//    1           3
+//    2           1
+//    3           2
+//3 2 1 denote largest medium and smallest height respectively
+
+
+        Bitmap x1 = Bitmap.createScaledBitmap(tempbitmaps[0], 1024, 736, true);
+        Bitmap x2 = Bitmap.createScaledBitmap(tempbitmaps[1], 1024, 768, true);
+        Bitmap x3 = Bitmap.createScaledBitmap(tempbitmaps[2], 1024, 800, true);
+
+        Bitmap y1 = Bitmap.createScaledBitmap(tempbitmaps[3], 1024, 738, true);
+        Bitmap y2 = Bitmap.createScaledBitmap(tempbitmaps[4], 1024, 768, true);
+        Bitmap y3 = Bitmap.createScaledBitmap(tempbitmaps[5], 1024, 799, true);
+
+        tempbitmaps[0] = x1;
+        tempbitmaps[2] = x2;
+        tempbitmaps[4] = x3;
+
+        tempbitmaps[1] = y3;
+        tempbitmaps[3] = y1;
+        tempbitmaps[5] = y2;
 
         return tempbitmaps;
     }
+
+
 
 
     @Override

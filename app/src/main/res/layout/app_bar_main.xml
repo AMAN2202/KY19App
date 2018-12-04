@@ -43,14 +43,14 @@
             android:layout_marginRight="7dp"
             app:srcCompat="@android:drawable/ic_dialog_email" />
 
-        <android.support.design.widget.TabLayout
+        <android.support.design.widget.BottomNavigationView
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:background="@color/colorPrimaryDark"
+            android:background="@color/translucent"
             app:layout_anchor="@id/app_bar"
             app:layout_anchorGravity="bottom"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
